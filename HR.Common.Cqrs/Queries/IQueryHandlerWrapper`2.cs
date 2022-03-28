@@ -4,7 +4,9 @@ using System.Threading.Tasks;
 namespace HR.Common.Cqrs.Queries
 {
     /// <summary>
-    /// Defines the interface for a set of classes that wrap a query handler in order to create a processing pipeline.
+    /// Allows an implementor to wrap a query handler to dynamically add behavior. 
+    /// The call to the query handler, or a successive wrapper, is abstracted into a function delegate, which is passed in to the <see cref="HandleAsync"/> method. 
+    /// The back-to-back chaining of multiple wrappers effectively creates a processing pipeline.
     /// </summary>
     /// <typeparam name="TQuery">The type of the query.</typeparam>
     /// <typeparam name="TResult">The result type of the query.</typeparam>
