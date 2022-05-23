@@ -6,7 +6,7 @@
     <Copyright>Copyright (c) $(Authors), $(Company). All rights reserved.</Copyright>
   </PropertyGroup>
   <PropertyGroup>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
     <Major>$(Version.Split('.')[0])</Major>
     <Minor>$(Version.Split('.')[1])</Minor>
     <Build>$([System.Math]::Floor($([System.DateTime]::Now.Subtract($([System.DateTime]::Parse("01-01-2000"))).TotalDays)))</Build>
@@ -25,8 +25,13 @@
     <PackageTags>cqrs;command;query;event;handler;dispatcher</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIcon>hr.png</PackageIcon>
+    <PackageIconUrl>https://raw.githubusercontent.com/jimatas/HR.Common.Cqrs/master/hr.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/jimatas/HR.Common.Cqrs</PackageProjectUrl>
     <RepositoryUrl>https://github.com/jimatas/HR.Common.Cqrs</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\hr.png" Pack="true" Visible="false" PackagePath="\"/>
+  </ItemGroup>
 </Project>
