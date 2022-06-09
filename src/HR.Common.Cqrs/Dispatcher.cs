@@ -2,7 +2,6 @@
 using HR.Common.Cqrs.Events;
 using HR.Common.Cqrs.Infrastructure;
 using HR.Common.Cqrs.Queries;
-using HR.Common.Utilities;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -29,19 +28,22 @@ namespace HR.Common.Cqrs
         public Dispatcher(IHandlerRegistry handlerRegistry) : this(handlerRegistry, NullLogger<Dispatcher>.Instance) { }
         public Dispatcher(IHandlerRegistry handlerRegistry, ILogger<Dispatcher> logger)
         {
-            this.handlerRegistry = Ensure.Argument.NotNull(() => handlerRegistry);
-            this.logger = Ensure.Argument.NotNull(() => logger);
+            this.handlerRegistry = handlerRegistry ?? throw new ArgumentNullException(nameof(handlerRegistry));
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         async Task ICommandDispatcher.DispatchAsync<TCommand>(TCommand command, CancellationToken cancellationToken)
         {
-            Ensure.Argument.NotNull(() => command);
+            if (command == null)
+            {
+                throw new ArgumentNullException(nameof(command));
+            }
 
             var handler = handlerRegistry.GetCommandHandler<TCommand>();
             var wrappers = handlerRegistry.GetCommandHandlerWrappers<TCommand>();
             try
             {
-                await ExecutePipeline().WithoutCapturingContext();
+                await ExecutePipeline().ConfigureAwait(false);
             }
             catch (Exception exception)
             {
@@ -64,13 +66,16 @@ namespace HR.Common.Cqrs
 
         async Task<TResult> IQueryDispatcher.DispatchAsync<TResult>(IQuery<TResult> query, CancellationToken cancellationToken)
         {
-            Ensure.Argument.NotNull(() => query);
+            if (query == null)
+            {
+                throw new ArgumentNullException(nameof(query));
+            }
 
             var handler = new ReflectedQueryHandler<TResult>(query.GetType(), handlerRegistry);
             var wrappers = new ReflectedQueryHandlerWrappers<TResult>(query.GetType(), handlerRegistry);
             try
             {
-                return await ExecutePipeline().WithoutCapturingContext();
+                return await ExecutePipeline().ConfigureAwait(false);
             }
             catch (Exception exception)
             {
@@ -93,13 +98,16 @@ namespace HR.Common.Cqrs
 
         async Task IEventDispatcher.DispatchAsync<TEvent>(TEvent e, CancellationToken cancellationToken)
         {
-            Ensure.Argument.NotNull(() => e);
+            if (e == null)
+            {
+                throw new ArgumentNullException(nameof(e));
+            }
 
             var handlers = handlerRegistry.GetEventHandlers<TEvent>();
             var task = Task.WhenAll(handlers.Select(SafeHandleAsync));
             try
             {
-                await task.WithoutCapturingContext();
+                await task.ConfigureAwait(false);
             }
             catch
             {
@@ -163,9 +171,7 @@ namespace HR.Common.Cqrs
 
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
             public IEnumerator<ReflectedQueryHandlerWrapper<TResult>> GetEnumerator()
-            {
-                return wrappers.Select(wrapper => new ReflectedQueryHandlerWrapper<TResult>(wrapper, handleMethod)).GetEnumerator();
-            }
+                => wrappers.Select(wrapper => new ReflectedQueryHandlerWrapper<TResult>(wrapper, handleMethod)).GetEnumerator();
         }
 
         private class ReflectedQueryHandlerWrapper<TResult>

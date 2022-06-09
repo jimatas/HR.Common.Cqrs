@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HR.Common.Cqrs\HR.Common.Cqrs.csproj" />
+    <ProjectReference Include="..\..\src\HR.Common.Cqrs\HR.Common.Cqrs.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,6 @@
 ﻿using HR.Common.Cqrs.Commands;
 using HR.Common.Cqrs.Events;
 using HR.Common.Cqrs.Queries;
-using HR.Common.Utilities;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -19,7 +18,7 @@ namespace HR.Common.Cqrs.Infrastructure
         private readonly IServiceProvider serviceProvider;
 
         public HandlerRegistry(IServiceProvider serviceProvider)
-            => this.serviceProvider = Ensure.Argument.NotNull(() => serviceProvider);
+            => this.serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
 
         public object GetCommandHandler(Type commandType)
         {
