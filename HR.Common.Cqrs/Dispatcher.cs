@@ -163,9 +163,7 @@ namespace HR.Common.Cqrs
 
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
             public IEnumerator<ReflectedQueryHandlerWrapper<TResult>> GetEnumerator()
-            {
-                return wrappers.Select(wrapper => new ReflectedQueryHandlerWrapper<TResult>(wrapper, handleMethod)).GetEnumerator();
-            }
+                => wrappers.Select(wrapper => new ReflectedQueryHandlerWrapper<TResult>(wrapper, handleMethod)).GetEnumerator();
         }
 
         private class ReflectedQueryHandlerWrapper<TResult>

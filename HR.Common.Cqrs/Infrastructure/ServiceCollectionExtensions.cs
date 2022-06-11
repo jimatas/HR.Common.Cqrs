@@ -14,10 +14,10 @@ namespace HR.Common.Cqrs.Infrastructure
     public static class ServiceCollectionExtensions
     {
         /// <summary>
-        /// Registers the default command, query, and event dispatcher with the dependency injection framework.
+        /// Registers the default command, query, and event dispatchers with the dependency injection framework.
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="serviceLifetime">The service lifetime to register the dispatcher with.</param>
+        /// <param name="serviceLifetime">The service lifetime to register the dispatchers with.</param>
         /// <returns></returns>
         public static IServiceCollection AddDispatcher(this IServiceCollection services, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
         {

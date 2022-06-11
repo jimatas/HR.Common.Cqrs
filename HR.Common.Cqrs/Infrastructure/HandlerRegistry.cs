@@ -25,11 +25,9 @@ namespace HR.Common.Cqrs.Infrastructure
         {
             var handlerType = typeof(ICommandHandler<>).MakeGenericType(commandType);
             var handlers = serviceProvider.GetServices(handlerType);
-            if (handlers.Count() == 1)
-            {
-                return handlers.Single();
-            }
-            throw new InvalidOperationException($"{(handlers.Any() ? "More than one" : "No")} handler found for command with type {commandType}.");
+            return handlers.Count() == 1
+                ? handlers.Single()
+                : throw new InvalidOperationException($"{(handlers.Any() ? "More than one" : "No")} handler found for command with type {commandType}.");
         }
 
         public IEnumerable<object> GetCommandHandlerWrappers(Type commandType)
@@ -42,11 +40,9 @@ namespace HR.Common.Cqrs.Infrastructure
         {
             var handlerType = typeof(IQueryHandler<,>).MakeGenericType(queryType, resultType);
             var handlers = serviceProvider.GetServices(handlerType);
-            if (handlers.Count() == 1)
-            {
-                return handlers.Single();
-            }
-            throw new InvalidOperationException($"{(handlers.Any() ? "More than one" : "No")} handler found for query with type {queryType}.");
+            return handlers.Count() == 1
+                ? handlers.Single()
+                : throw new InvalidOperationException($"{(handlers.Any() ? "More than one" : "No")} handler found for query with type {queryType}.");
         }
 
         public IEnumerable<object> GetQueryHandlerWrappers(Type queryType, Type resultType)
