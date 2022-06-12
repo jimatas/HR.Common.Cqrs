@@ -21,7 +21,7 @@
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
-    <Description>CQRS library built around an in-process mediator that can dispatch command, query, and event messages. Supports wrapping of message handlers to create processing pipelines.</Description>
+    <Description>CQRS library built around an in-process mediator that can dispatch command, query, and event messages for handling by user-defined handlers. Supports wrapping of message handlers to create processing pipelines.</Description>
     <PackageTags>cqrs;command;query;event;handler;dispatcher</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
